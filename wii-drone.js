@@ -70,7 +70,12 @@ board.on("ready", function() {
 		console.log("read");
 	});
 
-  classicController.on("up", wiiDrone.handleUp);
-  classicController.on("up", wiiDrone.handleDown);
-
+  classicController.on("up", function(err, event) {
+    console.log('up', err, event);
+    wiiDrone.handleUp(err, event);
+  });
+  classicController.on("down", function(err, event) {
+    console.log('down', err, event);
+    wiiDrone.handleDown(err, event);
+  });
 });
