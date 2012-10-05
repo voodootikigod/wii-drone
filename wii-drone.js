@@ -32,7 +32,7 @@ WiiDrone.prototype.toggleStartStop = function() {
 WiiDrone.prototype.handleUp = function(err, event) {
   var buttonId = event.target.which;
   if (this.buttonMap.hasOwnProperty(buttonId)) {
-    this.client[ wiiDrone.map[buttonId] ](0);
+    this.client[ this.buttonMap[buttonId] ](0);
   } else {
     switch (buttonId) {
       case 'start':
@@ -45,7 +45,7 @@ WiiDrone.prototype.handleUp = function(err, event) {
 WiiDrone.prototype.handleDown = function(err, event) {
   var buttonId = event.target.which;
   if (this.buttonMap.hasOwnProperty(buttonId)) {
-    this.client[ wiiDrone.map[buttonId] ](1);
+    this.client[ this.buttonMap[buttonId] ](1);
   }
 }
 
