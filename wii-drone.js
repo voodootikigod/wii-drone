@@ -1,31 +1,21 @@
 var five = require("johnny-five"),
 	board, sensor;
-
 var arDrone = require('ar-drone');
 var events = require('events');
 var util = require('util');
-
-
-
 var history = [];
 var KONAMI = ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a"];
-
 function isKonami() {
 	var is = true;
 	var kl = KONAMI.length;
-	if (history < kl) {
-		return false;
-	}
-
-	is =  KONAMI.join() === history.reverse().join();
+	if(history < kl) { return false; }
+	is = KONAMI.join() === history.reverse().join();
 	return is;
 }
-
 function WiiDrone(opts) {
 	opts = opts || {};
 	this.started = false;
 	this.client = new arDrone.createClient();
-
 	// map incoming button events to ar-drone commands.
 	this.buttonMap = {
 		'x': 'up',
@@ -38,20 +28,15 @@ function WiiDrone(opts) {
 		'zr': 'counterClockwise'
 	};
 }
-
 util.inherits(WiiDrone, events.EventEmitter);
-WiiDrone.prototype.flip = function () {
+WiiDrone.prototype.flip = function() {
 	this.client.animate('flipLeft', 100);
-	var backup = (function (that) {
-		return function () {
-			that.client.up(1);
-		}
+	var backup = (function(that) {
+		return function() { that.client.up(1);		}
 	}(this));
 
-	var respin = (function (that) {
-		return function () {
-			that.client.animate('flipRight', 100);
-		}
+	var respin = (function(that) {
+		return function() { that.client.animate('flipRight', 100); }
 	}(this));
 	setTimeout(backup, 2400);
 	setTimeout(respin, 4800);
@@ -67,7 +52,6 @@ WiiDrone.prototype.toggleStartStop = function() {
 	}
 	this.started = !this.started;
 };
-
 WiiDrone.prototype.handleUp = function(err, event) {
 	var buttonId = event.target.which;
 	if(this.buttonMap.hasOwnProperty(buttonId)) {
@@ -84,7 +68,6 @@ WiiDrone.prototype.handleUp = function(err, event) {
 	}
 	this.emit('up', err, event, buttonId, this);
 }
-
 WiiDrone.prototype.handleDown = function(err, event) {
 	var buttonId = event.target.which;
 	if(this.buttonMap.hasOwnProperty(buttonId)) {
@@ -92,25 +75,13 @@ WiiDrone.prototype.handleDown = function(err, event) {
 	}
 	this.emit('down', err, event, buttonId, this);
 }
-
-board = new five.Board({
-	debug: true
-});
-
+board = new five.Board({	debug: true});
 board.on("ready", function() {
 	var wiiDrone = new WiiDrone();
-	var classicController = five.Nunchuk({
-		pins: ["A4", "A5"],
-		freq: 100,
-		device: "RVL-005"
-	});
-
+	var classicController = five.Nunchuk({ pins: ["A4", "A5"], freq: 100, device: "RVL-005" });
 	board.repl.inject({
 		sensor: classicController
 	});
-
-	// classicController.on("read", function() {
-	// });
 	classicController.on("up", function(err, event) {
 		history.unshift(event.target.which);
 		history.length = KONAMI.length;
@@ -120,11 +91,5 @@ board.on("ready", function() {
 			wiiDrone.handleUp(err, event);
 		}
 	});
-	classicController.on("down", function(err, event) {
-		// console.log('down', err, event);
-		wiiDrone.handleDown(err, event);
-	});
-
-
-
+	classicController.on("down", function(err, event) { wiiDrone.handleDown(err, event);	});
 });
