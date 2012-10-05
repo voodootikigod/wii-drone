@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "johnny-five": "git://github.com/voodootikigod/johnny-five.git",
-    "ar-drone": "git://github.com/felixge/node-ar-drone.git"
+    "ar-drone": "git://github.com/felixge/node-ar-drone.git",
+    "rx": "git://github.com/reactive-extensions/rxjs.git",
   },
   "keywords": []
 }
