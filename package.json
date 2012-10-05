@@ -1,0 +1,14 @@
+{
+  "name": "wii-drone",
+  "description": "Sweet love between an ARDrone and a classic Wii remote controller",
+  "version": "0.0.1",
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  },
+  "dependencies": {
+    "johnny-five": "git://github.com/voodootikigod/johnny-five.git",
+    "ar-drone": "git://github.com/felixge/node-ar-drone.git"
+  },
+  "keywords": []
+}
