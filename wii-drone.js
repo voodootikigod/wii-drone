@@ -19,6 +19,6 @@ board.on("ready", function() {
 
 
 	classicController.on("read", function() {
-		
+		console.log("read");
 	});
 });
