@@ -75,7 +75,7 @@ WiiDrone.prototype.handleDown = function(err, event) {
 	}
 	this.emit('down', err, event, buttonId, this);
 }
-board = new five.Board({	debug: true});
+board = new five.Board({ debug: true});
 board.on("ready", function() {
 	var wiiDrone = new WiiDrone();
 	var classicController = five.Nunchuk({ pins: ["A4", "A5"], freq: 100, device: "RVL-005" });
@@ -83,6 +83,7 @@ board.on("ready", function() {
 		sensor: classicController
 	});
 	classicController.on("up", function(err, event) {
+		console.log(event);
 		history.unshift(event.target.which);
 		history.length = KONAMI.length;
 		if(isKonami()) {

@@ -1,0 +1,4 @@
+Y => sck
+W => GND
+R => 5v
+G => SDA
