@@ -1,0 +1,6 @@
+wii classic controller.
+
+yellow - sck
+white - ground / gnd
+green - sda
+red - v+
