@@ -83,7 +83,7 @@ board.on("ready", function() {
 		sensor: classicController
 	});
 	classicController.on("up", function(err, event) {
-		console.log(event);
+		//console.log(event);
 		history.unshift(event.target.which);
 		history.length = KONAMI.length;
 		if(isKonami()) {
