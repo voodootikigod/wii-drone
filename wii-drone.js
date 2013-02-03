@@ -10,6 +10,7 @@ function isKonami() {
 	var kl = KONAMI.length;
 	if(history < kl) { return false; }
 	is = KONAMI.join() === history.reverse().join();
+	console.log(is);
 	return is;
 }
 function WiiDrone(opts) {
@@ -24,22 +25,17 @@ function WiiDrone(opts) {
 		'down': 'back',
 		'left': 'left',
 		'right': 'right',
-		'zl': 'clockwise',
-		'zr': 'counterClockwise'
+		'l': 'counterClockwise',
+		'r': 'clockwise'
+		
 	};
 }
 util.inherits(WiiDrone, events.EventEmitter);
-WiiDrone.prototype.flip = function() {
+WiiDrone.prototype.rightFlip = function() {
+	this.client.animate('flipRight', 100);
+}
+WiiDrone.prototype.leftFlip = function() {
 	this.client.animate('flipLeft', 100);
-	var backup = (function(that) {
-		return function() { that.client.up(1);		}
-	}(this));
-
-	var respin = (function(that) {
-		return function() { that.client.animate('flipRight', 100); }
-	}(this));
-	setTimeout(backup, 2400);
-	setTimeout(respin, 4800);
 }
 WiiDrone.prototype.toggleStartStop = function() {
 	if(this.started) {
@@ -61,9 +57,6 @@ WiiDrone.prototype.handleUp = function(err, event) {
 		case 'start':
 			this.toggleStartStop();
 			break;
-		case 'r':
-			this.flip();
-			break;
 		}
 	}
 	this.emit('up', err, event, buttonId, this);
@@ -83,11 +76,15 @@ board.on("ready", function() {
 		sensor: classicController
 	});
 	classicController.on("up", function(err, event) {
-		//console.log(event);
+		console.log(event);
 		history.unshift(event.target.which);
 		history.length = KONAMI.length;
-		if(isKonami()) {
-			wiiDrone.flip();
+		if(event.target.which =='zl') {
+			console.log("leftflip")
+			wiiDrone.leftFlip();
+		} else if(event.target.which =='zr') {
+			console.log("rightflip")
+			wiiDrone.rightFlip();
 		} else {
 			wiiDrone.handleUp(err, event);
 		}
