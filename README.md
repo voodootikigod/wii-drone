@@ -7,10 +7,10 @@ To use this, you can purchase this awesome little $4 [Wii adapter for arduino](h
 
 <table>
 <tr><th>Wire Color </th><th>Meaning </th><th>Arduino Pin Down</th></tr>
-<tr><td>Yellow </td><td>SCK </td><td>A04</td></tr>
+<tr><td>Yellow </td><td>SCK </td><td>A05</td></tr>
 <tr><td>White </td><td>GND </td><td>Ground</td></tr>
 <tr><td>Red </td><td>5v </td><td>5v</td></tr>
-<tr><td>Green </td><td>SDA </td><td>A05</td></tr>
+<tr><td>Green </td><td>SDA </td><td>A04</td></tr>
 </table>
 
 To install all the dependencies for this application, please run this in the wii-drone folder:
