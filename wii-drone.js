@@ -123,6 +123,10 @@ board = new five.Board();
 // Green        =>  SDA       =>  A04
 
 
+
+var ljs = {x: null, y: null};
+var rjs = {x: null, y: null};
+
 board.on("ready", function() {
 
   // Create a new `Wii.Classic` hardware instance,
@@ -155,6 +159,13 @@ board.on("ready", function() {
       event.target[ event.axis ],
       event.axis, event.direction
     );
+    if (ljs[event.axis]) {
+    	//parse as change
+    } else {
+    	//set as center point
+    	ljs[event.axis] = event.target[ event.axis ];
+    }
+
   });
 
   classicController.joystick.right.on( "change", function( err, event ) {
@@ -163,6 +174,13 @@ board.on("ready", function() {
       event.target[ event.axis ],
       event.axis, event.direction
     );
+
+    if (rjs[event.axis]) {
+    	//parse as change
+    } else {
+    	//set as center point
+    	rjs[event.axis] = event.target[ event.axis ];
+    }
   });
 
   // "down"
@@ -220,3 +238,19 @@ board.on("ready", function() {
 
 });
 
+
+
+// give your laptop eyes
+
+var http = require("http"),
+    drone = require("dronestream");
+
+
+var server = http.createServer(function(req, res) {
+  require("fs").createReadStream(__dirname + "/index.html").pipe(res);
+});
+
+drone.listen(server);
+server.listen(5555);
+//open up and watch.
+require("child_process").exec("open http://127.0.0.1:5555/");
